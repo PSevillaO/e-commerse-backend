@@ -4,23 +4,26 @@ const jwtVerify = require('../middelwares/isAuth');
 
 
 const userController = require('../controllers/user.controllers');
-// const userController = require('./controllers/user.controllers');
+const uploadImage = require('../middelwares/uploadUserImage')
+
 
 // Busca todos los Usuario
 // agrego un middewre de verificacion de token 
 router.get('/users/:id?', userController.getUsers)
 
 // Agregamos un usuario
-router.post('/users', userController.createUser)
+router.post('/users', uploadImage, userController.createUser)
 
 // Borramos un usuario
-router.delete('/users/:idUser',jwtVerify, userController.deleteUser)
+router.delete('/users/:idUser', jwtVerify, userController.deleteUser)
+
 // Actualizamos un usuario
+router.put('/users/:idUser', [jwtVerify, uploadImage], userController.updateUser)
 
-router.put('/users/:idUser', userController.updateUser)
+router.post('/login', userController.login)
+
 // Buscamos un usuario especifico
-
-router.post('/login',userController.login)
+router.get('/users/search/:search', userController.searchUsers);
 
 
 module.exports = router;

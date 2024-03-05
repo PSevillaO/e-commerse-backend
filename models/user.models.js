@@ -10,7 +10,7 @@ const userSchema = new Schema({
         trim: true,
         validate: {
             validator: function (name) {
-                const regex = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\s]*$/;
+                const regex = /^[a-zA-ZñÑáéíóúÁÉÍÓÚ\d\s]*$/;
                 return regex.test(name);
             }
         }
@@ -40,7 +40,7 @@ const userSchema = new Schema({
     },
     age: {
         type: Number,
-        required: true,
+        required: false,
         min: 12,
         max: 120
     },
@@ -59,8 +59,8 @@ const userSchema = new Schema({
             'ADMIN_ROLE'
         ]
     },
-    bornDate:{
-        type: Number,
+    bornDate: {
+        type: Date,
         required: false,
     },
 })
