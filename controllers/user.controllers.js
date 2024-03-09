@@ -154,6 +154,40 @@ async function updateUser(req, res) {
     }
 }
 
+async function updatePass(req, res) {
+    try {
+        const id = req.params.idUser;
+        const { oldPassword, newPassword } = req.body;
+
+        // Obtener el usuario de la base de datos
+        const user = await User.findById(id);
+        if (!user) {
+            return res.status(404).send({ ok: false, message: "Usuario no encontrado" });
+        }
+        // Verificar si la contraseña actual es correcta
+        const isPasswordValid = await bcrypt.compare(oldPassword, user.password);
+        if (!isPasswordValid) {
+            return res.status(400).send({ ok: false, message: "La contraseña actual es incorrecta" });
+        }
+        // Encriptar la nueva contraseña
+        const hashedPassword = await bcrypt.hash(newPassword, saltRounds);
+        // Actualizar la contraseña en la base de datos
+        const userUpdater = await User.findByIdAndUpdate(id, { password: hashedPassword }, { new: true });
+
+        res.status(201).send({
+            ok: true,
+            message: "Clave cambiada correctamente",
+        });
+    } catch (error) {
+        console.log(error);
+        res.status(500).send({
+            ok: false,
+            message: "Error al cambiar la contraseña del usuario"
+        });
+    }
+}
+
+
 async function login(req, res) {
     try {
 
@@ -255,5 +289,6 @@ module.exports = {
     deleteUser,
     updateUser,
     login,
-    searchUsers
+    searchUsers,
+    updatePass
 }

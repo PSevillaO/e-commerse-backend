@@ -25,5 +25,7 @@ router.post('/login', userController.login)
 // Buscamos un usuario especifico
 router.get('/users/search/:search', userController.searchUsers);
 
+router.put('/users/pass/:idUser', userController.updatePass);
+
 
 module.exports = router;
