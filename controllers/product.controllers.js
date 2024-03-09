@@ -73,7 +73,7 @@ async function createProduct(req, res) {
             product: prodcutSave
         });
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).send({
             ok: false,
             message: "No se pudo crear el producto"
@@ -183,7 +183,7 @@ async function searchProducts(req, res) {
         });
 
     } catch (error) {
-        console.log(error);
+        console.error(error);
         return res.status(500).send({
             ok: false,
             message: "No se pudo realizar la búsqueda de productos"

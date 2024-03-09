@@ -11,7 +11,7 @@ async function getCategories(req, res) {
             message: "Categorias Encontradas"
         })
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).send({
             ok: false,
             message: "Error del servidor"
@@ -22,8 +22,6 @@ async function getCategories(req, res) {
 async function createCategory(req, res) {
     try {
         const category = new Category(req.body);
-        console.log(category)
-
         const categoryDB = await category.save();
         res.status(201).send({
             ok: true,
@@ -32,7 +30,7 @@ async function createCategory(req, res) {
         });
 
     } catch (error) {
-        console.log(error)
+        console.error(error)
         res.status(500).send({
             ok: false,
             message: "No se pudo crear la Categoria"
